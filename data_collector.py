@@ -25,8 +25,8 @@ def eco2mix_parser(url):
     
     return data
 
-d1 = date(2012, 1, 1)  # start date
-d2 = date(2018, 1, 31)  # end date
+d1 = date(2016, 1, 1)  # start date
+d2 = date(2016, 12, 31)  # end date
 delta = d2 - d1         # timedelta
 
 dates = [datetime.datetime.strptime(str(d1 + timedelta(days=i)), '%Y-%m-%d').strftime('%d/%m/%Y') for i in range(delta.days + 1)]
@@ -36,8 +36,10 @@ DATA = eco2mix_parser(temp_url)
 
 print('In process...')
 for date in dates[1:]:
+    print(date)
     temp_url = "http://www.rte-france.com/getEco2MixXml.php?type=mix&&dateDeb=" + date +"&dateFin=" + date +"&mode=NORM"
-    DATA.append(eco2mix_parser(temp_url), ignore_index=True)
+    temp = eco2mix_parser(temp_url)
+    DATA = DATA.append(temp, ignore_index=True)
 
 DATA.to_csv('eco2mix_data.csv')
 print('Done!')
